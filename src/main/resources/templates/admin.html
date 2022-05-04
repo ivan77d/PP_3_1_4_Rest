@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>For admin</title>
+</head>
+<body>
+<h1>Welcome to spring boot security page!</h1>
+<div>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Age</th>
+            <th>Actions</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <th th:text="${user.getName()}"></th>
+            <th th:text="${user.getSurname()}"></th>
+            <th th:text="${user.getAge()}"></th>
+
+            <td>
+                <a th:href="@{/admin/{id}/edit(id=${user.getId()})}">Edit</a>
+                <a th:href="@{/admin/{id}/delete(id=${user.getId()})}">Delete</a>
+            </td>
+
+        </tr>
+    </table>
+    </br>
+    </br>
+    </hr>
+
+    <form th:method="GET" th:action="@{/admin/new}">
+        <button type="submit">Create new user</button>
+    </form>
+</div>
+
+<br>
+<div th:fragment="exit_button">
+    <form action="/logout" method="POST">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+<!--<div th:insert="~{exit :: exit_button}"></div>-->
+</body>
+</html>
