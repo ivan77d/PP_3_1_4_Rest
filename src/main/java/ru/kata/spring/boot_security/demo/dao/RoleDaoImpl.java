@@ -1,7 +1,8 @@
 package ru.kata.spring.boot_security.demo.dao;
 
-import com.example.pp_3_1_2_springboot.model.Role;
+
 import org.springframework.stereotype.Repository;
+import ru.kata.spring.boot_security.demo.model.Role;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
