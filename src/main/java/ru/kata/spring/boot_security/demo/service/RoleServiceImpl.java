@@ -26,4 +26,9 @@ public class RoleServiceImpl implements RoleService {
     public Role getRoleByName(String name) {
         return roleDao.getRoleByName(name);
     }
+
+    @Override
+    public void add(Role role) {
+         roleDao.save(role);
+    }
 }

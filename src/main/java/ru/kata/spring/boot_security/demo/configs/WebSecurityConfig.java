@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
@@ -21,13 +23,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessUserHandler successUserHandler;
 
     private final UserServiceImpl userService;
+
     @Autowired
     public WebSecurityConfig(SuccessUserHandler successUserHandler, UserServiceImpl userService) {
         this.successUserHandler = successUserHandler;
         this.userService = userService;
     }
 
-    //public WebSecurityConfig(SuccessUserHandler successUserHandler) {
+//    public WebSecurityConfig(SuccessUserHandler successUserHandler) {
 //        this.successUserHandler = successUserHandler;
 //    }
 
@@ -43,38 +46,60 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .hasAnyRole("ADMIN", "USER")
                 .anyRequest()
                 .authenticated()
-                .and() //доступ имеют пользователи с ролью админ
+                .and()
                 .formLogin()
+
+              // .loginPage("/")
                 .successHandler(successUserHandler)
+               // .loginProcessingUrl("/")
+                .usernameParameter("username")
+                .passwordParameter("password")
+
                 .and()
                 .logout()
                 .logoutSuccessUrl("/");
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(12);
-    }
+//    @Autowired
+//    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+//        // конфигурация для прохождения аутентификации
+//        //тут для аутентификации нам нужно чтобы юзердитейлс информацию передавал
+//    }
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return NoOpPasswordEncoder.getInstance();
+//    }
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder(12);
+//    }
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+//        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(userService);
-        return daoAuthenticationProvider;
-    }
+        return daoAuthenticationProvider; }
+
+}
 
     // аутентификация inMemory
 //    @Bean
 //    @Override
 //    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
+//        return new InMemoryUserDetailsManager(User.builder()
+//                .username("admin")
+//                .password("admin")
+//                .roles("ADMIN")
+//                .build(),
+//
+//                User.builder()
 //                        .username("user")
 //                        .password("user")
 //                        .roles("USER")
-//                        .build();
+//                        .build()
 //
-//        return new InMemoryUserDetailsManager(user);
+//
+//        );
 //    }
-}

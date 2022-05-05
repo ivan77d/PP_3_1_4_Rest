@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.Set;
 
 @Entity
-@Table(name = "users312")
+@Table(name = "user")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,23 +29,23 @@ public class User implements UserDetails {
     @Column
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    Set<Role> roles;
+    private Set<Role> roles;
 
     public User() {
     }
 
-    public User(int id, String name, String surname, int age, String username, String password, Set<Role> roles) {
+    public User(int id, String name, String surname, int age, String username, String password, Role roles) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.age = age;
         this.username = username;
         this.password = password;
-        this.roles = roles;
+        this.roles = (Set<Role>) roles;
     }
 
     public void setUsername(String username) {

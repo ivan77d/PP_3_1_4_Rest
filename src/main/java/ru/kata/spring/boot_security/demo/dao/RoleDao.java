@@ -10,4 +10,6 @@ public interface RoleDao {
     public List<Role> getAllRoles();
 
     public Role getRoleByName(String name);
+
+    public void save(Role role);
 }
