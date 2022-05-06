@@ -15,71 +15,57 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessUserHandler successUserHandler;
+    private UserServiceImpl userDetailsService;
 
-    private final UserServiceImpl userService;
 
-    @Autowired
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserServiceImpl userService) {
+@Autowired
+    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserServiceImpl userDetailsService) {
         this.successUserHandler = successUserHandler;
-        this.userService = userService;
+        this.userDetailsService = userDetailsService;
     }
-
-//    public WebSecurityConfig(SuccessUserHandler successUserHandler) {
-//        this.successUserHandler = successUserHandler;
-//    }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+
+
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/admin/**")
-                .hasRole("ADMIN")
-                .antMatchers("/user/**")
-                .hasAnyRole("ADMIN", "USER")
+                .antMatchers("/admin").access("hasAnyRole('ADMIN')")
+                .antMatchers("/admin/**").access("hasAnyRole('ADMIN')")
+                .antMatchers("/user").access("hasAnyRole('USER', 'ADMIN')")
+                .antMatchers("/user/**").access("hasAnyRole('USER', 'ADMIN')")
+
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
-
-              // .loginPage("/")
                 .successHandler(successUserHandler)
-               // .loginProcessingUrl("/")
                 .usernameParameter("username")
                 .passwordParameter("password")
-
                 .and()
                 .logout()
                 .logoutSuccessUrl("/");
     }
 
-//    @Autowired
-//    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
-//        // конфигурация для прохождения аутентификации
-//        //тут для аутентификации нам нужно чтобы юзердитейлс информацию передавал
-//    }
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return NoOpPasswordEncoder.getInstance();
-//    }
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder(12);
-//    }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(12);
+    }
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-//        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        daoAuthenticationProvider.setUserDetailsService(userService);
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         return daoAuthenticationProvider; }
 
 }
