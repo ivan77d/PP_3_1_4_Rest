@@ -45,7 +45,7 @@ public class Role implements GrantedAuthority {
     }
 
     public void setUsers(Set<User> users) {
-        this.user = users;
+        this.user = user;
     }
 
     @Override

@@ -38,14 +38,14 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(int id, String name, String surname, int age, String username, String password, Role roles) {
+    public User(int id, String name, String surname, int age, String username, String password, Set<Role> role) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.age = age;
         this.username = username;
         this.password = password;
-        this.role = (Set<Role>) roles;
+        this.role = role;
     }
 
     public void setUsername(String username) {
@@ -60,8 +60,8 @@ public class User implements UserDetails {
         return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.role = roles;
+    public void setRoles(Set<Role> role) {
+        this.role = role;
     }
 
     public int getId() {
