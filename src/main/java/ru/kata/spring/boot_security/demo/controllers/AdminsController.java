@@ -12,6 +12,7 @@ import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 import java.security.Principal;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -27,8 +28,23 @@ public class AdminsController {
         this.roleService = roleService;
     }
 
+    public AdminsController() {
+    }
+
     @GetMapping
     public String AllUsers(Principal principal, Model model) {
+//        //юзер по логину
+//        User user = (User) userService.loadUserByUsername(principal.getName());
+//        model.addAttribute("currentuser", user); //сюда приходят данные текущего юзера админа
+//        //передаем лист юзеров в форму
+//        List<User> users = userService.allUsers();
+//        model.addAttribute("users", users);
+//        //передаем лист ролей в форму
+//        List<Role> roles = roleService.getAllRoles();
+//        model.addAttribute("roleS", roles);
+//        //новый юзер
+//        User newuser = new User();
+//        model.addAttribute("newuser", newuser);
         User user = userService.getUserByLogin(principal.getName());
         model.addAttribute("user", user);
         model.addAttribute("users", userService.allUsers());
@@ -44,12 +60,8 @@ public class AdminsController {
 
     @PostMapping
     public String saveUser(@ModelAttribute("user") User user,
-                           @RequestParam(required = false, value = "nameRoles") String[] roles) {
-        Set<Role> roles1 = new HashSet<>();
-        for (String role : roles) {
-            roles1.add(roleService.getRoleByName(role));
-        }
-        user.setRoles(roles1);
+                           @RequestParam(required = false, value = "role_id") Integer[] role_id) {
+        user.setRoles(roleService.roleById(role_id));
         userService.save(user);
         return "redirect:/admin";
     }
@@ -69,13 +81,10 @@ public class AdminsController {
 
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user,
-                         @RequestParam (value = "editRole") String[]roles1) {
-        Set<Role> roles=new HashSet<>();
-        for(String role:roles1){
-            roles.add(roleService.getRoleByName(role));
-        }
-        user.setRoles(roles);
-        userService.update(user);
+                         @PathVariable("id") int id,
+                         @RequestParam (required = false, value = "role_id") Integer[] role_id) {
+        user.setRoles(roleService.roleById(role_id));
+        userService.update(id, user);
         return "redirect:/admin";
     }
 }

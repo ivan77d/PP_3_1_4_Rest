@@ -22,7 +22,7 @@
     <label for="age">Enter age: </label>
     <input type="text" th:field="*{age}" id="age">
     <br>
-    <select size="2" name="editRole" multiple>
+    <select size="2" name="role_id" multiple>
         <option th:each="role : ${roles}"
                 th:value="${role.name}"
                 th:text="${role.getName()}">
