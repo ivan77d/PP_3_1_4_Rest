@@ -12,12 +12,14 @@
             <th>Name</th>
             <th>Surname</th>
             <th>Age</th>
+            <th>Role</th>
             <th>Actions</th>
         </tr>
         <tr th:each="user : ${users}">
             <th th:text="${user.getName()}"></th>
             <th th:text="${user.getSurname()}"></th>
             <th th:text="${user.getAge()}"></th>
+            <th th:text="${user.getRoles()}"></th>
 
             <td>
                 <a th:href="@{/admin/{id}/edit(id=${user.getId()})}">Edit</a>

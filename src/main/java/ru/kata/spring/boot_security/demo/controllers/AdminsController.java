@@ -88,3 +88,9 @@ public class AdminsController {
         return "redirect:/admin";
     }
 }
+//<select size="2" name="role_id" multiple>
+//<option th:each="role : ${roles}"
+//        th:value="${role.name}"
+//        th:text="${role.getName()}">
+//</option>
+//</select>

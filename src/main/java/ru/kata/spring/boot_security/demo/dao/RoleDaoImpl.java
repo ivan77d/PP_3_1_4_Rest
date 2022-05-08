@@ -23,11 +23,15 @@ public class RoleDaoImpl implements RoleDao{
     @Override
     public Set<Role> roleById(Integer[] role_id) {
         Set<Role> roleResult = new HashSet<>();
-        for (int id : role_id) {
-            TypedQuery<Role> q = entityManager.createQuery("select role from Role role where role.id = :id", Role.class);
-            q.setParameter("id", id);
-            Role result = q.getResultList().stream().filter(role -> role.getId() == id).findAny().orElse(null);
-            roleResult.add(result);
+        if (role_id==null) {
+       //              roleResult.add();
+        } else {
+            for (int id : role_id) {
+                TypedQuery<Role> q = entityManager.createQuery("select role from Role role where role.id = :id", Role.class);
+                q.setParameter("id", id);
+                Role result = q.getResultList().stream().filter(role -> role.getId() == id).findAny().orElse(null);
+                roleResult.add(result);
+            }
         }
         return roleResult;
     }

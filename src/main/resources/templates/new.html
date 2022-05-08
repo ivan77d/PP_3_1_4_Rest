@@ -21,9 +21,9 @@
     <label for="age">Enter age: </label>
     <input type="text" th:field="*{age}" id="age">
     <br>
-    <select size="2" name="nameRoles" multiple>
+    <select size="2" name="role_id" multiple>
         <option th:each="role : ${roles}"
-                th:value="${role.name}"
+                th:value="${role.id}"
                 th:text="${role.getName()}">
         </option>
     </select>
