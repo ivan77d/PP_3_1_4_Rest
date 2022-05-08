@@ -9,6 +9,4 @@ public interface RoleService {
 
      List<Role> getAllRoles();
     Set<Role> roleById(Integer[] role_id);
-//    public Role getRoleByName(String name);
-//    public void add(Role role);
 }

@@ -5,15 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleServiceImpl;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 import java.security.Principal;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
@@ -33,18 +29,6 @@ public class AdminsController {
 
     @GetMapping
     public String AllUsers(Principal principal, Model model) {
-//        //юзер по логину
-//        User user = (User) userService.loadUserByUsername(principal.getName());
-//        model.addAttribute("currentuser", user); //сюда приходят данные текущего юзера админа
-//        //передаем лист юзеров в форму
-//        List<User> users = userService.allUsers();
-//        model.addAttribute("users", users);
-//        //передаем лист ролей в форму
-//        List<Role> roles = roleService.getAllRoles();
-//        model.addAttribute("roleS", roles);
-//        //новый юзер
-//        User newuser = new User();
-//        model.addAttribute("newuser", newuser);
         User user = userService.getUserByLogin(principal.getName());
         model.addAttribute("user", user);
         model.addAttribute("users", userService.allUsers());
@@ -88,9 +72,3 @@ public class AdminsController {
         return "redirect:/admin";
     }
 }
-//<select size="2" name="role_id" multiple>
-//<option th:each="role : ${roles}"
-//        th:value="${role.name}"
-//        th:text="${role.getName()}">
-//</option>
-//</select>

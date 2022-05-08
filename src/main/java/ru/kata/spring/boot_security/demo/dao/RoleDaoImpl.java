@@ -12,9 +12,10 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public class RoleDaoImpl implements RoleDao{
+public class RoleDaoImpl implements RoleDao {
     @PersistenceContext
     private EntityManager entityManager;
+
     @Override
     public List<Role> getAllRoles() {
         return entityManager.createQuery("select role from Role role", Role.class).getResultList();
@@ -23,8 +24,8 @@ public class RoleDaoImpl implements RoleDao{
     @Override
     public Set<Role> roleById(Integer[] role_id) {
         Set<Role> roleResult = new HashSet<>();
-        if (role_id==null) {
-       //              roleResult.add();
+        if (role_id == null) {
+           roleResult.add(entityManager.find(Role.class, 1));
         } else {
             for (int id : role_id) {
                 TypedQuery<Role> q = entityManager.createQuery("select role from Role role where role.id = :id", Role.class);
@@ -35,16 +36,4 @@ public class RoleDaoImpl implements RoleDao{
         }
         return roleResult;
     }
-
-//    @Override
-//    public Role getRoleByName(String name) {
-//        return entityManager.createQuery("select role from Role role where role.name=:name", Role.class)
-//                .setParameter("name", name).getSingleResult();
-//    }
-//@Override
-//    public void save(Role role) {
-//        entityManager.persist(role);
-//    }
-
-
 }
