@@ -32,6 +32,7 @@ public class AdminsController {
         User user = userService.getUserByLogin(principal.getName());
         model.addAttribute("user", user);
         model.addAttribute("users", userService.allUsers());
+        model.addAttribute("roles", roleService.getAllRoles());
         return "admin";
     }
 
@@ -63,7 +64,7 @@ public class AdminsController {
         return "/edit";
     }
 
-    @PatchMapping("/{id}")
+    @PostMapping("/{id}")
     public String update(@ModelAttribute("user") User user,
                          @PathVariable("id") int id,
                          @RequestParam (required = false, value = "role_id") Integer[] role_id) {
