@@ -17,7 +17,8 @@
     <span class="navbar-brand mb-0 h1">
     <strong><a th:text="${user.getUsername()}"></a></strong>
     <span class="text-start">with roles:
-            <a th:each="role : ${user.getRoles()}" th:text="${role} + ' '"></a>
+<!--            <a th:each="role : ${user.getRoles()}" th:text="${role} + ' '"></a>-->
+            <a th:each="role : ${roles}" th:text="${role.toString()}"></a>
         </span>
         </span>
     <ul class="nav justify-content-end">

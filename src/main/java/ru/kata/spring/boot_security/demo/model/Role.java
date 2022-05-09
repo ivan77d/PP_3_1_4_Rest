@@ -25,7 +25,7 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String toString() {
-        return name.replaceFirst("ROLE_", "");
+        return name.replaceFirst("ROLE_", "") + " ";
     }
 
     public int getId() {
