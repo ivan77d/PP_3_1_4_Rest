@@ -86,10 +86,6 @@
                             <td th:text="${user.getUsername()}"></td>
                             <td><span th:each="role : ${user.getRoles()}"
                                       th:text="${role.toString()}"></span></td>
-
-
-
-                            <!--Кнопки delete edit(вызов модального окна)-->
                             <td>
                                 <button th:href="${'#edit' + user.getId()}" type="button" class="btn btn-info"
                                         data-toggle="modal">Edit
@@ -179,7 +175,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body container-fluid text-center col-6">
+                <div class="container-fluid text-center col-6">
+
                     <form role="form" class="form-horizontal">
                         <div class="form-group">
                             <label>ID
@@ -213,8 +210,8 @@
                                        name="password">
                             </label>
                         </div>
-                        <div class="form-group mb-6">
-                                <label>Role
+                        <div class="form-group">
+                                <label for="editRole">Role</label>
                                     <select id="editRole" class="form-control"
                                             size="2" name="role_id" multiple="multiple">
                                         <option th:each="role : ${roles}"
@@ -222,21 +219,7 @@
                                                 th:text="${role.toString()}">
                                         </option>
                                     </select>
-                                </label>
                         </div>
-
-<!--                        <div class="form-group mb-3">-->
-<!--                            <label for="newRole">Role</label>-->
-
-<!--                            <select id="newRole" class="form-control"-->
-<!--                                    size="2" name="role_id" multiple="multiple">-->
-<!--                                <option th:each="role:${roles}"-->
-<!--                                        th:value="${role.id}"-->
-<!--                                        th:text="${role.toString()}"></option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-
-
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-info">Edit</button>
@@ -297,9 +280,9 @@
                         </label>
                     </div>
                     <div class="form-group">
-                        <label>Role
-                            <select id="deleteRole" class="custom-select bd-primary"
-                                    size="2" name="editRoles" multiple="multiple"
+                        <label for="deleteRole">Role</label>
+                            <select id="deleteRole" class="form-control"
+                                    size="2" name="deleteRoles" multiple="multiple"
                                     disabled="true">
                                 <option th:each="role : ${roles}"
                                         th:value="${role.id}"
@@ -307,7 +290,6 @@
                                 </option>
                             </select>
 
-                        </label>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
