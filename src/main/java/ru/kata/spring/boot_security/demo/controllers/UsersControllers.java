@@ -14,7 +14,6 @@ import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/user")
 public class UsersControllers {
 
     private UserServiceImpl userService;
@@ -24,12 +23,12 @@ public class UsersControllers {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("/user")
     public String getUser(Principal principal, Model model) {
         User user = userService.getUserByLogin(principal.getName());
         model.addAttribute("user", user);
         model.addAttribute("roles", user.getRoles());
-        return "user";
+        return "/user";
     }
 
     @GetMapping("/login")
