@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -21,12 +22,12 @@ public class AdminsRestController {
 
     @GetMapping("/users")
     public List<User> getAllUsers() {
-        return userService.allUsers();
+        return userService.getAllUsers();
     }
 
     @GetMapping("/users/{id}")
     public User getUser(@PathVariable int id) {
-        return userService.userById(id);
+        return userService.getUserById(id);
     }
 
     @PutMapping("/users")

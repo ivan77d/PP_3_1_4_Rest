@@ -8,5 +8,5 @@ import java.util.Set;
 public interface RoleService {
 
      List<Role> getAllRoles();
-    Set<Role> roleById(Integer[] role_id);
+    Set<Role> getRoleById(Integer[] role_id);
 }

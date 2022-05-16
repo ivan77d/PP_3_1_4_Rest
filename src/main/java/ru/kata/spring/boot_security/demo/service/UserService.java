@@ -5,9 +5,9 @@ import java.util.List;
 
 public interface UserService {
 
-    List<User> allUsers();
+    List<User> getAllUsers();
 
-    User userById(int id);
+    User getUserById(int id);
 
     void save(User user);
 
